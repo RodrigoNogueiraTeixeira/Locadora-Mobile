@@ -33,6 +33,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -181,20 +182,37 @@ fun SelecaoContatoModal(
                             CircularProgressIndicator()
                         }
                     } else if (contatos.isEmpty()) {
-                        Box(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .weight(1f),
-                            contentAlignment = Alignment.Center
+                                .weight(1f)
+                                .padding(12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
                             Text(
                                 text = if (filtro.isBlank())
-                                    "Nenhum contato encontrado na agenda."
+                                    "A agenda do emulador ainda não possui contatos salvos."
                                 else
                                     "Nenhum contato com o nome \"$filtro\".",
                                 color = MaterialTheme.colorScheme.outline,
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            OutlinedButton(
+                                onClick = {
+                                    val contatoTeste = ContatoDispositivo(
+                                        id = "contato-demo",
+                                        nome = "Carlos Eduardo (Cliente Demonstração)",
+                                        telefone = "(11) 98765-4321"
+                                    )
+                                    onContatoSelecionado(contatoTeste)
+                                    onDismiss()
+                                }
+                            ) {
+                                Text("Usar Contato de Demonstração")
+                            }
                         }
                     } else {
                         // RF03.3 & RF03.5: Lista de contatos da agenda

@@ -68,6 +68,7 @@ import com.example.locadora.util.DateUtils
 fun NovaLocacaoScreen(
     viewModel: NovaLocacaoViewModel,
     contatosViewModel: ContatosViewModel,
+    onNavigateToVeiculos: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
     val veiculosDisponiveis by viewModel.veiculosDisponiveis.collectAsStateWithLifecycle()
@@ -84,6 +85,13 @@ fun NovaLocacaoScreen(
     var showDatePickerSaida by remember { mutableStateOf(false) }
     var showDatePickerEntrega by remember { mutableStateOf(false) }
     var dropdownVeiculosExpandido by remember { mutableStateOf(false) }
+
+    // Auto-seleciona o primeiro veículo disponível se nenhum estiver selecionado
+    LaunchedEffect(veiculosDisponiveis) {
+        if (veiculoSelecionado == null && veiculosDisponiveis.isNotEmpty()) {
+            viewModel.selecionarVeiculo(veiculosDisponiveis.first())
+        }
+    }
 
     // RF04.5: Retorna ao Dashboard ao confirmar com sucesso
     LaunchedEffect(locacaoSalvaSucesso) {
@@ -132,12 +140,22 @@ fun NovaLocacaoScreen(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.4f))
                 ) {
-                    Text(
-                        text = "Não há veículos disponíveis para locação no momento. Cadastre ou libere um veículo na tela de Frota.",
-                        modifier = Modifier.padding(14.dp),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onErrorContainer
-                    )
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Não há veículos disponíveis para locação no momento. Cadastre ou libere um veículo na frota.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Button(
+                            onClick = onNavigateToVeiculos,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Icon(imageVector = Icons.Default.DirectionsCar, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Cadastrar Veículo na Frota")
+                        }
+                    }
                 }
             } else {
                 Box(modifier = Modifier.fillMaxWidth()) {

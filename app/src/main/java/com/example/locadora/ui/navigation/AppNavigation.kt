@@ -96,6 +96,9 @@ fun AppNavigation(
             NovaLocacaoScreen(
                 viewModel = novaLocacaoViewModel,
                 contatosViewModel = contatosViewModel,
+                onNavigateToVeiculos = {
+                    navController.navigate(Screen.Veiculos.route)
+                },
                 onNavigateBack = {
                     navController.popBackStack()
                 }

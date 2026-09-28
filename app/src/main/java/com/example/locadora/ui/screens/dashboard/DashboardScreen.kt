@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AssignmentTurnedIn
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.CloudSync
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.EventBusy
@@ -37,6 +38,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -139,6 +142,28 @@ fun DashboardScreen(
                 text = { Text("Nova Locação") },
                 containerColor = MaterialTheme.colorScheme.primary
             )
+        },
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    selected = true,
+                    onClick = { /* Já está no Dashboard */ },
+                    icon = { Icon(Icons.Default.Dashboard, contentDescription = null) },
+                    label = { Text("Locações") }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = onNavigateToVeiculos,
+                    icon = { Icon(Icons.Default.DirectionsCar, contentDescription = null) },
+                    label = { Text("Frota") }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = onNavigateToSincronizacao,
+                    icon = { Icon(Icons.Default.CloudSync, contentDescription = null) },
+                    label = { Text("Nuvem REST") }
+                )
+            }
         }
     ) { innerPadding ->
         Column(
@@ -226,6 +251,33 @@ fun DashboardScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.outline
                         )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Button(
+                            onClick = onNavigateToNovaLocacao,
+                            modifier = Modifier.fillMaxWidth(0.85f)
+                        ) {
+                            Icon(Icons.Default.Add, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Abrir Nova Locação")
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedButton(
+                            onClick = onNavigateToVeiculos,
+                            modifier = Modifier.fillMaxWidth(0.85f)
+                        ) {
+                            Icon(Icons.Default.DirectionsCar, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Gerenciar Frota de Veículos")
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedButton(
+                            onClick = onNavigateToSincronizacao,
+                            modifier = Modifier.fillMaxWidth(0.85f)
+                        ) {
+                            Icon(Icons.Default.CloudSync, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Sincronizar Catálogo Nuvem")
+                        }
                     }
                 }
             } else {
