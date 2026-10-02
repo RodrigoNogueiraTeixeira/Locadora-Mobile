@@ -79,6 +79,10 @@ O projeto adota o padrão arquitetural **MVVM (Model-View-ViewModel)** com separ
 
 ## 📱 Telas Principais do Aplicativo
 
+| 1. Dashboard (Locações) | 2. Frota de Veículos | 3. Abertura de Locação | 4. Sincronização Nuvem |
+| :---: | :---: | :---: | :---: |
+| <img src="docs/screenshots/01_dashboard.jpg" width="220" alt="Dashboard" /> | <img src="docs/screenshots/02_frota.jpg" width="220" alt="Frota de Veículos" /> | <img src="docs/screenshots/03_locacao.jpg" width="220" alt="Abertura de Locação" /> | <img src="docs/screenshots/04_sincronizacao.jpg" width="220" alt="Sincronização Nuvem" /> |
+
 ### 1. Dashboard (Tela Inicial)
 * Exibe contadores de locações ativas e contratos em atraso.
 * Lista os contratos ativos detalhando veículo, cliente, datas e badge dinâmico de prazo.
@@ -89,22 +93,18 @@ O projeto adota o padrão arquitetural **MVVM (Model-View-ViewModel)** com separ
 * Filtros rápidos por chip: *Todos*, *Disponíveis*, *Alugados* e *Manutenção*.
 * Card de cada veículo com placa, ano, valor da diária e badge colorido de status.
 * Opção de alternar o veículo entre Disponível e Manutenção.
-* Modal para cadastro de novos veículos com validação imediata de placa brasileira e diária.
+* Modal para cadastro de novos veículos com validação imediata de placa brasileira e diária (botão `+`).
 
-### 3. Seleção de Contatos (Integração com SO)
-* Tratamento de permissão em tempo de execução (`READ_CONTACTS`).
-* Exibição didática e botão de repetição caso a permissão seja negada.
-* Busca reativa por nome com avatar e telefone.
+### 3. Abertura de Locação (Integração com SO)
+* Dropdown exibindo apenas veículos que estejam livres na frota (`DISPONÍVEL`).
+* Botão de seleção de cliente integrado à **agenda de contatos do dispositivo** (`ContactsContract` / `READ_CONTACTS`).
+* Seleção de datas de saída e entrega prevista com cálculo automático do total estimado.
+* Ao confirmar, o veículo passa para `ALUGADO` e a locação é registrada como `ATIVA`.
 
-### 4. Abertura de Locação
-* Dropdown exibindo apenas veículos que estejam livres na frota.
-* Botão de seleção de cliente integrado à agenda.
-* DatePickers Material 3 para data de saída e devolução.
-* Resumo com cálculo automático do valor total estimado.
-
-### 5. Sincronização Nuvem (Retrofit 2 REST API)
+### 4. Sincronização Nuvem (Retrofit 2 REST API)
 * Demonstração prática do consumo de API REST externa com conversão Gson.
-* Importação de catálogo remoto e envio de backup de locações.
+* Botão **"Importar Novos Veículos (GET)"**: consome serviço web remoto e sincroniza a frota com o banco local Room.
+* Botão **"Enviar Dados para a Nuvem (POST)"**: realiza backup/envio de dados para servidores externos.
 
 ---
 
